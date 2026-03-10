@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Becalm — 일에 몰두하세요. 정리는 내일 아침에 도착합니다.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&family=Playfair+Display:ital,wght@0,700;1,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #FAFAF8;
+            --bg-card: #FFFFFF;
+            --bg-dark: #111111;
+            --bg-newsletter: #F5F3EE;
+            --text-primary: #1A1A1A;
+            --text-secondary: #5C5C5C;
+            --text-muted: #999999;
+            --text-on-dark: #F0EDE6;
+            --accent: #E8590C;
+            --accent-soft: #FFF0E8;
+            --border: #E8E6E0;
+            --border-light: #F0EDE6;
+            --green-dot: #22C55E;
+            --blue-tag: #3B82F6;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 20px rgba(0,0,0,0.06);
+            --shadow-lg: 0 12px 40px rgba(0,0,0,0.08);
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', -apple-system, sans-serif;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            background: rgba(250, 250, 248, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-light);
+            transition: all 0.3s ease;
+        }
+
+        .nav-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 32px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.15rem;
+            letter-spacing: -0.5px;
+            color: var(--text-primary);
+        }
+
+        .nav-cta {
+            background: var(--bg-dark);
+            color: #fff;
+            padding: 10px 22px;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            letter-spacing: -0.2px;
+        }
+
+        .nav-cta:hover {
+            background: #333;
+            transform: translateY(-1px);
+        }
+
+        /* ── HERO ── */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 32px 80px;
+        }
+
+        .hero-grid {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 64px;
+            align-items: center;
+        }
+
+        .hero-text {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--accent-soft);
+            color: var(--accent);
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            margin-bottom: 28px;
+            letter-spacing: -0.2px;
+        }
+
+        .hero-badge::before {
+            content: '';
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--accent);
+            animation: pulse 2s ease infinite;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.2rem, 4vw, 3.2rem);
+            font-weight: 900;
+            line-height: 1.25;
+            letter-spacing: -1.5px;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            word-break: keep-all;
+        }
+
+        .hero h1 em {
+            font-style: normal;
+            color: var(--accent);
+        }
+
+        .hero-desc {
+            font-size: 1.08rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 36px;
+            max-width: 460px;
+            word-break: keep-all;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 14px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-dark);
+            color: #fff;
+            padding: 16px 32px;
+            border-radius: 100px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            letter-spacing: -0.3px;
+        }
+
+        .btn-primary:hover {
+            background: #333;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        }
+
+        .btn-primary svg {
+            transition: transform 0.2s ease;
+        }
+
+        .btn-primary:hover svg {
+            transform: translateX(3px);
+        }
+
+        .btn-ghost {
+            color: var(--text-secondary);
+            font-size: 0.88rem;
+            text-decoration: none;
+            padding: 8px 4px;
+            border-bottom: 1px solid var(--border);
+            transition: all 0.2s;
+        }
+
+        .btn-ghost:hover {
+            color: var(--text-primary);
+            border-color: var(--text-primary);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 32px;
+            margin-top: 40px;
+            padding-top: 28px;
+            border-top: 1px solid var(--border);
+        }
+
+        .hero-stat-num {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            color: var(--text-primary);
+        }
+
+        .hero-stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* ── NEWSLETTER PREVIEW (hero right) ── */
+        .hero-visual {
+            animation: fadeInUp 0.8s 0.2s ease forwards;
+            opacity: 0;
+        }
+
+        .newsletter-preview {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg), 0 0 0 1px var(--border-light);
+            overflow: hidden;
+            transform: perspective(1200px) rotateY(-3deg) rotateX(2deg);
+            transition: transform 0.5s ease;
+        }
+
+        .newsletter-preview:hover {
+            transform: perspective(1200px) rotateY(0deg) rotateX(0deg);
+        }
+
+        .nl-topbar {
+            background: #F7F5F0;
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .nl-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .nl-dot-r { background: #FE5F57; }
+        .nl-dot-y { background: #FEBC2E; }
+        .nl-dot-g { background: #28C840; }
+
+        .nl-topbar-text {
+            margin-left: 8px;
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .nl-header {
+            padding: 24px 28px 16px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .nl-from {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .nl-subject {
+            font-size: 1.05rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 4px;
+        }
+
+        .nl-date {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+        }
+
+        .nl-body {
+            padding: 24px 28px;
+        }
+
+        .nl-greeting {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .nl-section-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 12px;
+        }
+
+        .nl-agenda-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .nl-agenda-item:last-child {
+            border-bottom: none;
+        }
+
+        .nl-time {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            min-width: 48px;
+            padding-top: 2px;
+        }
+
+        .nl-agenda-content {
+            flex: 1;
+        }
+
+        .nl-agenda-title {
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+            margin-bottom: 3px;
+        }
+
+        .nl-agenda-desc {
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .nl-tag {
+            display: inline-block;
+            font-size: 0.62rem;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 100px;
+            margin-top: 6px;
+        }
+
+        .nl-tag-decision {
+            background: #EEF2FF;
+            color: #4F46E5;
+        }
+
+        .nl-tag-research {
+            background: #F0FDF4;
+            color: #16A34A;
+        }
+
+        .nl-tag-followup {
+            background: #FFF7ED;
+            color: var(--accent);
+        }
+
+        .nl-divider {
+            height: 1px;
+            background: var(--border-light);
+            margin: 20px 0;
+        }
+
+        .nl-reminder {
+            background: #FFFBEB;
+            border-left: 3px solid #F59E0B;
+            padding: 12px 16px;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin-top: 16px;
+        }
+
+        .nl-reminder-title {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #B45309;
+            margin-bottom: 4px;
+        }
+
+        .nl-reminder-text {
+            font-size: 0.72rem;
+            color: #92400E;
+            line-height: 1.5;
+        }
+
+        .nl-workflow-placeholder {
+            background: var(--bg-newsletter);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 20px 16px;
+            margin-top: 16px;
+            text-align: center;
+        }
+
+        .nl-workflow-label {
+            font-size: 0.68rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 14px;
+        }
+
+        .nl-workflow-nodes {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+        }
+
+        .nl-node {
+            background: var(--bg-card);
+            border: 1.5px solid var(--border);
+            padding: 8px 6px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-align: center;
+            line-height: 1.15;
+            flex: 1;
+            min-width: 0;
+            white-space: nowrap;
+        }
+
+        .nl-node small {
+            display: block;
+            font-size: 0.54rem;
+            font-weight: 400;
+            color: var(--text-muted);
+            margin-top: 1px;
+            white-space: nowrap;
+        }
+
+        .nl-node-active small {
+            color: var(--accent);
+        }
+
+        .nl-node-active {
+            border-color: var(--accent);
+            border-width: 2px;
+            color: var(--accent);
+            background: var(--accent-soft);
+            font-weight: 700;
+        }
+
+        .nl-arrow {
+            color: var(--accent);
+            font-size: 0.75rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        /* ── BEFORE/AFTER ── */
+        .before-after {
+            padding: 100px 32px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 3vw, 2.4rem);
+            font-weight: 800;
+            letter-spacing: -1px;
+            line-height: 1.3;
+            margin-bottom: 16px;
+            word-break: keep-all;
+        }
+
+        .section-title em {
+            font-style: normal;
+            color: var(--accent);
+        }
+
+        .section-desc {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            max-width: 580px;
+            margin-bottom: 48px;
+        }
+
+        .ba-grid {
+            display: grid;
+            grid-template-columns: 1fr 48px 1fr;
+            gap: 0;
+            align-items: stretch;
+        }
+
+        .ba-card {
+            padding: 40px 36px;
+            border-radius: var(--radius-lg);
+            position: relative;
+        }
+
+        .ba-before {
+            background: #F5F0F0;
+            border: 1px solid #E8E0E0;
+        }
+
+        .ba-after {
+            background: #F0F5EE;
+            border: 1px solid #D8E8D0;
+        }
+
+        .ba-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--text-muted);
+        }
+
+        .ba-card-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 20px;
+        }
+
+        .ba-before .ba-card-label { color: #C0392B; }
+        .ba-after .ba-card-label { color: #27AE60; }
+
+        .ba-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .ba-item:last-child { border-bottom: none; }
+
+        .ba-icon {
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            width: 28px;
+            text-align: center;
+            padding-top: 1px;
+        }
+
+        .ba-item-text {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .ba-item-text strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* ── HOW IT WORKS ── */
+        .how-section {
+            padding: 100px 32px;
+            background: var(--bg-dark);
+            color: var(--text-on-dark);
+        }
+
+        .how-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .how-section .section-label {
+            color: rgba(232, 89, 12, 0.8);
+        }
+
+        .how-section .section-title {
+            color: #fff;
+        }
+
+        .how-section .section-desc {
+            color: rgba(255,255,255,0.5);
+        }
+
+        .how-steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            margin-top: 48px;
+        }
+
+        .how-step {
+            position: relative;
+            padding: 36px 28px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: var(--radius-md);
+            transition: all 0.3s ease;
+        }
+
+        .how-step:hover {
+            background: rgba(255,255,255,0.07);
+            border-color: rgba(255,255,255,0.12);
+            transform: translateY(-4px);
+        }
+
+        .how-step-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: rgba(232, 89, 12, 0.25);
+            line-height: 1;
+            margin-bottom: 16px;
+        }
+
+        .how-step-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #fff;
+            letter-spacing: -0.3px;
+        }
+
+        .how-step-desc {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.5);
+            line-height: 1.7;
+        }
+
+        .how-step-time {
+            display: inline-block;
+            margin-top: 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--accent);
+            background: rgba(232, 89, 12, 0.1);
+            padding: 4px 10px;
+            border-radius: 100px;
+        }
+
+        /* ── PERSONAS ── */
+        .persona-section {
+            padding: 100px 32px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .persona-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 48px;
+        }
+
+        .persona-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 32px 28px;
+            transition: all 0.3s ease;
+        }
+
+        .persona-card:hover {
+            border-color: var(--accent);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-4px);
+        }
+
+        .persona-role {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 14px;
+        }
+
+        .persona-pain {
+            font-size: 1rem;
+            font-weight: 700;
+            line-height: 1.5;
+            letter-spacing: -0.3px;
+            margin-bottom: 12px;
+        }
+
+        .persona-detail {
+            font-size: 0.83rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* ── SOCIAL PROOF ── */
+        .proof-section {
+            padding: 80px 32px;
+            background: var(--bg-newsletter);
+        }
+
+        .proof-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .proof-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-top: 48px;
+        }
+
+        .proof-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            padding: 32px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
+        }
+
+        .proof-quote {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            font-weight: 400;
+            position: relative;
+            padding-left: 20px;
+            border-left: 3px solid var(--accent);
+        }
+
+        .proof-author {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        .proof-author strong {
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        /* ── PRICING ── */
+        .pricing-section {
+            padding: 100px 32px;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .pricing-card {
+            background: var(--bg-card);
+            border: 2px solid var(--bg-dark);
+            border-radius: var(--radius-lg);
+            padding: 48px 40px;
+            margin-top: 48px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-popular {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-dark);
+            color: #fff;
+            padding: 8px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .pricing-top {
+            padding-top: 20px;
+        }
+
+        .pricing-seats {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--accent-soft);
+            color: var(--accent);
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+
+        .pricing-price {
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            gap: 4px;
+            margin-bottom: 8px;
+        }
+
+        .pricing-currency {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+        }
+
+        .pricing-amount {
+            font-size: 3.5rem;
+            font-weight: 900;
+            letter-spacing: -2px;
+            line-height: 1;
+        }
+
+        .pricing-period {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .pricing-original {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            text-decoration: line-through;
+            margin-bottom: 24px;
+        }
+
+        .pricing-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+        }
+
+        .pricing-features {
+            text-align: left;
+            max-width: 400px;
+            margin: 0 auto 36px;
+        }
+
+        .pricing-feature {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            padding: 10px 0;
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+        }
+
+        .pricing-check {
+            color: var(--green-dot);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .btn-pricing {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--accent);
+            color: #fff;
+            padding: 18px 48px;
+            border-radius: 100px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            letter-spacing: -0.3px;
+        }
+
+        .btn-pricing:hover {
+            background: #D14B00;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(232, 89, 12, 0.3);
+        }
+
+        .pricing-note {
+            margin-top: 16px;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        /* ── FINAL CTA ── */
+        .final-section {
+            padding: 100px 32px;
+            background: var(--bg-dark);
+            text-align: center;
+        }
+
+        .final-inner {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .final-section h2 {
+            font-size: clamp(1.6rem, 3vw, 2.2rem);
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -1px;
+            margin-bottom: 16px;
+            line-height: 1.35;
+            word-break: keep-all;
+        }
+
+        .final-section h2 em {
+            font-style: normal;
+            color: var(--accent);
+        }
+
+        .final-desc {
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.45);
+            margin-bottom: 36px;
+            line-height: 1.7;
+        }
+
+        .final-section .btn-pricing {
+            background: #fff;
+            color: var(--bg-dark);
+        }
+
+        .final-section .btn-pricing:hover {
+            background: #F0EDE6;
+            box-shadow: 0 8px 30px rgba(255,255,255,0.15);
+        }
+
+        .final-note {
+            margin-top: 20px;
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.3);
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            padding: 40px 32px;
+            border-top: 1px solid var(--border-light);
+            text-align: center;
+        }
+
+        .footer-text {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* ── ANIMATIONS ── */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 900px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 48px;
+            }
+
+            .hero-visual {
+                order: -1;
+            }
+
+            .newsletter-preview {
+                transform: none;
+            }
+
+            .ba-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .ba-arrow {
+                transform: rotate(90deg);
+            }
+
+            .how-steps {
+                grid-template-columns: 1fr;
+            }
+
+            .persona-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .proof-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-stats {
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .hero {
+                padding: 100px 20px 60px;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .hero-stats {
+                flex-wrap: wrap;
+                gap: 16px;
+            }
+
+            .pricing-card {
+                padding: 40px 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <div class="nav-inner">
+        <div class="logo">Becalm</div>
+        <a href="payment.html" class="nav-cta">지금 시작하기 →</a>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-grid">
+        <div class="hero-text">
+            <div class="hero-badge">초기 100명 한정 얼리어답터 모집 중</div>
+            <h1>일에 몰두하세요.<br>정리는 <em>내일 아침</em><br>메일함에 도착합니다.</h1>
+            <p class="hero-desc">
+                따로 기록하지 않아도, 어제의 업무 흐름·판단 근거·후속 과제가
+                매일 아침 한 통의 메일로 정리되어 도착합니다.
+            </p>
+            <div class="hero-actions">
+                <a href="payment.html" class="btn-primary">
+                    지금 시작하기 — ₩4,900/월
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+                <a href="#how" class="btn-ghost">어떻게 작동하나요?</a>
+            </div>
+            <div class="hero-stats">
+                <div>
+                    <div class="hero-stat-num">103명</div>
+                    <div class="hero-stat-label">지식노동자 심층인터뷰</div>
+                </div>
+                <div>
+                    <div class="hero-stat-num">87명</div>
+                    <div class="hero-stat-label">맥락 손실 Pain 공감</div>
+                </div>
+                <div>
+                    <div class="hero-stat-num">1.5h</div>
+                    <div class="hero-stat-label">일평균 맥락 복기 시간</div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="newsletter-preview">
+                <div class="nl-topbar">
+                    <div class="nl-dot nl-dot-r"></div>
+                    <div class="nl-dot nl-dot-y"></div>
+                    <div class="nl-dot nl-dot-g"></div>
+                    <span class="nl-topbar-text">mail.google.com</span>
+                </div>
+                <div class="nl-header">
+                    <div class="nl-from">From: Becalm &lt;digest@becalm.work&gt;</div>
+                    <div class="nl-subject">☀️ 3월 10일(화) — 어제의 업무 브리핑</div>
+                    <div class="nl-date">To: me · 오전 8:00</div>
+                </div>
+                <div class="nl-body">
+                    <div class="nl-greeting">좋은 아침이에요. 어제의 업무 흐름을 정리했습니다.</div>
+
+                    <div class="nl-section-title">📋 주요 Agenda</div>
+                    <div class="nl-agenda-item">
+                        <div class="nl-time">10:30</div>
+                        <div class="nl-agenda-content">
+                            <div class="nl-agenda-title">B2B 가격 정책 방향 결정</div>
+                            <div class="nl-agenda-desc">프리미엄 단일 플랜 → 프리+프로 2단계로 변경 결정. 근거: 경쟁사 분석 3건, 팀 논의</div>
+                            <span class="nl-tag nl-tag-decision">의사결정</span>
+                        </div>
+                    </div>
+                    <div class="nl-agenda-item">
+                        <div class="nl-time">14:00</div>
+                        <div class="nl-agenda-content">
+                            <div class="nl-agenda-title">시리즈A 투자사 미팅 준비</div>
+                            <div class="nl-agenda-desc">IR 덱 핵심 지표 업데이트, 시장 규모 리서치 (TAM $4.2B)</div>
+                            <span class="nl-tag nl-tag-research">리서치</span>
+                        </div>
+                    </div>
+                    <div class="nl-agenda-item">
+                        <div class="nl-time">16:30</div>
+                        <div class="nl-agenda-content">
+                            <div class="nl-agenda-title">온보딩 플로우 개선 논의</div>
+                            <div class="nl-agenda-desc">Day 1 전환율 23% → 목표 40%. Claude 대화에서 3가지 개선안 도출</div>
+                            <span class="nl-tag nl-tag-followup">후속 필요</span>
+                        </div>
+                    </div>
+
+                    <div class="nl-divider"></div>
+
+                    <div class="nl-reminder">
+                        <div class="nl-reminder-title">⚡ 놓치면 안 되는 것</div>
+                        <div class="nl-reminder-text">
+                            • 가격 정책 변경 → 개발팀에 플랜 분리 스펙 전달 필요<br>
+                            • IR 덱 내 MAU 수치 → 최신 데이터로 교체 필요
+                        </div>
+                    </div>
+
+                    <div class="nl-workflow-placeholder">
+                        <div class="nl-workflow-label">Workflow Map — B2B 가격 정책 결정 과정</div>
+                        <div class="nl-workflow-nodes">
+                            <span class="nl-node">경쟁사 3사<br><small>가격 구조 비교</small></span>
+                            <span class="nl-arrow">→</span>
+                            <span class="nl-node">Claude 대화<br><small>프리미엄 vs 2단계</small></span>
+                            <span class="nl-arrow">→</span>
+                            <span class="nl-node">팀 슬랙 논의<br><small>전환율 근거 공유</small></span>
+                            <span class="nl-arrow">→</span>
+                            <span class="nl-node nl-node-active">결정: 2단계<br><small>Free + Pro</small></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- BEFORE / AFTER -->
+<section class="before-after reveal">
+    <div class="section-label">Before → After</div>
+    <h2 class="section-title">퇴근 후 정리 vs. <em>아침에 도착하는 정리</em></h2>
+    <p class="section-desc">매일 저녁 30분 정리와 매일 아침 자동 브리핑. 같은 내용인데, 삶이 달라집니다.</p>
+    <div class="ba-grid">
+        <div class="ba-card ba-before">
+            <div class="ba-card-label">지금 — Without Becalm</div>
+            <div class="ba-item">
+                <div class="ba-icon">😩</div>
+                <div class="ba-item-text">퇴근 전 <strong>노션 일지를 열고 수동으로 정리</strong>. 피곤해서 대충 쓰거나, 아예 안 씀</div>
+            </div>
+            <div class="ba-item">
+                <div class="ba-icon">🔍</div>
+                <div class="ba-item-text">"그때 왜 그렇게 결정했지?" → <strong>슬랙, 브라우저, 노션을 뒤지며</strong> 30분~1시간 소요</div>
+            </div>
+            <div class="ba-item">
+                <div class="ba-icon">🫥</div>
+                <div class="ba-item-text">노션에 정리해도 <strong>결론만 남고, 그 결론에 이르기까지 본 자료·검토한 대안·버린 선택지는 전부 증발</strong></div>
+            </div>
+            <div class="ba-item">
+                <div class="ba-icon">🔧</div>
+                <div class="ba-item-text">Notion MCP 등 자동화를 붙여봐도 <strong>LLM 대화 요약만 남을 뿐, 내가 직접 본 자료와 나만의 해석은 빠지고</strong> — 결국 AI의 요약이지 나의 판단 기록이 아님</div>
+            </div>
+        </div>
+        <div class="ba-arrow">→</div>
+        <div class="ba-card ba-after">
+            <div class="ba-card-label">매일 아침 — With Becalm</div>
+            <div class="ba-item">
+                <div class="ba-icon">☀️</div>
+                <div class="ba-item-text">아침에 <strong>메일함을 열면 어제의 업무 브리핑이 도착</strong>. 추가 행동 제로</div>
+            </div>
+            <div class="ba-item">
+                <div class="ba-icon">⏱️</div>
+                <div class="ba-item-text">"그때 왜?" → 메일에서 클릭 한 번으로 <strong>판단 당시의 근거·대안·맥락에 즉시 도달</strong></div>
+            </div>
+            <div class="ba-item">
+                <div class="ba-icon">🔌</div>
+                <div class="ba-item-text">크롬 확장 하나로 끝. <strong>세팅도, 유지보수도 없이</strong> 그냥 일하면 됨</div>
+            </div>
+            <div class="ba-item">
+                <div class="ba-icon">📂</div>
+                <div class="ba-item-text">모든 판단의 과정이 자동 축적. <strong>3개월 전 결정도 30초 안에 복원</strong></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section reveal" id="how">
+    <div class="how-inner">
+        <div class="section-label">How It Works</div>
+        <h2 class="section-title">세 단계. <em>당신이 할 건 첫 번째뿐</em>입니다.</h2>
+        <p class="section-desc">설치 이후로는 아무것도 하지 않아도 됩니다.</p>
+        <div class="how-steps">
+            <div class="how-step">
+                <div class="how-step-num">01</div>
+                <div class="how-step-title">크롬 확장 설치</div>
+                <div class="how-step-desc">설치하고 시작 버튼 한 번만 누르세요. 이후부터는 자동입니다.</div>
+                <div class="how-step-time">⏱ 1분</div>
+            </div>
+            <div class="how-step">
+                <div class="how-step-num">02</div>
+                <div class="how-step-title">평소처럼 업무</div>
+                <div class="how-step-desc">웹 리서치, AI 대화, 메신저 — 추가 입력 없이 판단의 흔적을 자동으로 수집합니다.</div>
+                <div class="how-step-time">🤫 입력 제로</div>
+            </div>
+            <div class="how-step">
+                <div class="how-step-num">03</div>
+                <div class="how-step-title">다음 날 아침, 메일 확인</div>
+                <div class="how-step-desc">어제의 주요 Agenda, 의사결정 과정, 후속 과제가 정리된 브리핑이 메일함에 도착합니다.</div>
+                <div class="how-step-time">☀️ 매일 오전 8시</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PERSONAS -->
+<section class="persona-section reveal">
+    <div class="section-label">Who It's For</div>
+    <h2 class="section-title">'나'의 판단으로 증명해야 하는 사람들</h2>
+    <div class="persona-grid">
+        <div class="persona-card">
+            <div class="persona-role">Founder · Co-Founder</div>
+            <div class="persona-pain">피벗 결정의 근거를 투자자에게 설명하지 못했습니다.</div>
+            <div class="persona-detail">
+                채용 판단, 전략 변경, 피벗 결정 — 매일 수십 개의 판단을 내리지만, 3개월 뒤 "왜 이 방향이냐"를 물으면 기억에만 의존하게 됩니다.
+            </div>
+        </div>
+        <div class="persona-card">
+            <div class="persona-role">PM · PO</div>
+            <div class="persona-pain">스펙 변경 근거가 슬랙 어딘가에 묻혀 있습니다.</div>
+            <div class="persona-detail">
+                우선순위 조정의 맥락이 파편화됩니다. 새 팀원이 올 때마다 같은 결정 배경을 처음부터 다시 설명해야 합니다.
+            </div>
+        </div>
+        <div class="persona-card">
+            <div class="persona-role">전략기획 · 컨설팅</div>
+            <div class="persona-pain">최종 덱엔 결론만 남아 있습니다.</div>
+            <div class="persona-detail">
+                킥오프 때 쌓은 인터뷰·리서치·벤치마킹이 결론에 가려집니다. "왜 이 방향이었나요?"에 슬랙을 뒤집습니다.
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SOCIAL PROOF -->
+<section class="proof-section reveal">
+    <div class="proof-inner">
+        <div class="section-label">Voice of Customer</div>
+        <h2 class="section-title">직접 들은 이야기입니다</h2>
+        <div class="proof-grid">
+            <div class="proof-card">
+                <div class="proof-quote">
+                    초기 스타트업 대표로서 결정을 빠르게 내리다 보니, 시간이 조금만 지나도 왜 그 결정을 내렸는지가 바로 떠오르지 않을 때가 많아요.
+                </div>
+                <div class="proof-author"><strong>스타트업 대표</strong> · 심층인터뷰</div>
+            </div>
+            <div class="proof-card">
+                <div class="proof-quote">
+                    결과만 남고 과정이 남지 않아, 결국 일을 한 번 더 하게 됩니다. 경영진한테 왜 이 방향인지 설명할 때마다 슬랙을 뒤집습니다.
+                </div>
+                <div class="proof-author"><strong>대기업 전략기획</strong> · 베타테스터</div>
+            </div>
+            <div class="proof-card">
+                <div class="proof-quote">
+                    리서치한 내용인데, 막상 필요할 때 어떤 데이터였는지 기억이 안 납니다. 결국 처음부터 재검색하게 됩니다.
+                </div>
+                <div class="proof-author"><strong>펀드매니저/애널리스트</strong> · 심층인터뷰</div>
+            </div>
+            <div class="proof-card">
+                <div class="proof-quote">
+                    팀원에게 왜 이 방향인지 설명할 때마다 처음부터 다시 맥락을 꺼내야 합니다. 그 비용이 생각보다 큽니다.
+                </div>
+                <div class="proof-author"><strong>Co-Founder</strong> · 심층인터뷰</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section reveal" id="pricing">
+    <div class="section-label">Pricing</div>
+    <h2 class="section-title">매일 아침의 브리핑, <em>₩4,900</em>으로 시작하세요</h2>
+    <p class="section-desc" style="margin: 0 auto 0;">첫 달 사용 후 만족하지 않으시면 전액 환불해 드립니다.</p>
+
+    <div class="pricing-card">
+        <div class="pricing-popular">초기 100명 한정 · 얼리어답터 특별가</div>
+        <div class="pricing-top"></div>
+        <div class="pricing-seats">🔥 잔여 석 37 / 100</div>
+        <div class="pricing-price">
+            <span class="pricing-currency">₩</span>
+            <span class="pricing-amount">4,900</span>
+            <span class="pricing-period">/월</span>
+        </div>
+        <div class="pricing-original">정가 ₩9,900/월</div>
+        <p class="pricing-desc">연간 결제 시 적용 · 얼리어답터는 이 가격 영구 유지</p>
+
+        <div class="pricing-features">
+            <div class="pricing-feature">
+                <span class="pricing-check">✓</span>
+                매일 아침 업무 브리핑 메일 자동 발송
+            </div>
+            <div class="pricing-feature">
+                <span class="pricing-check">✓</span>
+                주요 Agenda + 의사결정 과정 자동 정리
+            </div>
+            <div class="pricing-feature">
+                <span class="pricing-check">✓</span>
+                Workflow Map 시각화 — 판단 흐름 한눈에
+            </div>
+            <div class="pricing-feature">
+                <span class="pricing-check">✓</span>
+                놓치면 안 되는 후속 과제 자동 리마인드
+            </div>
+            <div class="pricing-feature">
+                <span class="pricing-check">✓</span>
+                전체 히스토리 무제한 보관 · 검색 · 복기
+            </div>
+        </div>
+
+        <a href="payment.html" class="btn-pricing" id="cta-main">
+            지금 시작하기 — ₩4,900/월
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <p class="pricing-note">첫 달 불만족 시 전액 환불 · 언제든 해지 가능</p>
+    </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-section">
+    <div class="final-inner">
+        <h2>오늘의 판단이<br><em>내일의 근거</em>가 되도록.</h2>
+        <p class="final-desc">크롬 확장 설치 1분. 내일 아침부터 달라집니다.</p>
+        <a href="payment.html" class="btn-pricing">지금 시작하기 →</a>
+        <p class="final-note">설치 1분 · 첫 달 환불 보장 · 언제든 해지</p>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <p class="footer-text">© 2026 Without(윗아웃) · Becalm — Zero-Input Work Intelligence</p>
+</footer>
+
+<script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+    reveals.forEach(el => observer.observe(el));
+
+    // Smooth seat counter animation
+    const seatEl = document.querySelector('.pricing-seats');
+    if (seatEl) {
+        const baseSeats = 37;
+        // Randomize slightly on each visit for realism
+        const variance = Math.floor(Math.random() * 5);
+        const seats = Math.max(baseSeats - variance, 12);
+        seatEl.textContent = `🔥 잔여 석 ${seats} / 100`;
+    }
+</script>
+
+</body>
+</html>
