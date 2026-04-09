@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>비컴 · 매일 아침 메일 (Trigger)</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+<style>
+  :root {
+    --bg: #F4F5F7;
+    --card-bg: #FFFFFF;
+    --border: #E5E7EB;
+    --border-light: #F1F2F4;
+    --text-primary: #111827;
+    --text-secondary: #6B7280;
+    --text-tertiary: #9CA3AF;
+    --accent: #2563EB;
+    --accent-hover: #1D4ED8;
+    --warning-bg: #FEF3C7;
+    --warning-text: #92400E;
+    --decide-bg: #FEF2F2;
+    --decide-text: #991B1B;
+    --reminder-bg: #EFF6FF;
+    --reminder-text: #1E40AF;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.55;
+  }
+
+  /* ============ Email client frame ============ */
+  .frame {
+    max-width: 720px;
+    margin: 32px auto;
+    background: var(--card-bg);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04);
+  }
+
+  .frame-top {
+    background: #F8F9FB;
+    padding: 14px 24px;
+    border-bottom: 1px solid var(--border-light);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 12px;
+    color: var(--text-tertiary);
+  }
+  .frame-top .dot {
+    width: 11px; height: 11px; border-radius: 50%;
+  }
+  .frame-top .dot.r { background: #FF5F57; }
+  .frame-top .dot.y { background: #FEBC2E; }
+  .frame-top .dot.g { background: #28C840; }
+  .frame-top .label { margin-left: 12px; }
+
+  /* ============ Email metadata ============ */
+  .meta {
+    padding: 24px 32px 18px;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .meta .from {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .meta .avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2563EB, #06B6D4);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 16px;
+  }
+  .meta .from-info { flex: 1; }
+  .meta .from-name { font-weight: 600; font-size: 14px; }
+  .meta .from-email { font-size: 12px; color: var(--text-tertiary); }
+  .meta .timestamp { font-size: 12px; color: var(--text-tertiary); }
+
+  .meta .subject {
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-top: 4px;
+  }
+  .meta .preview {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    margin-top: 6px;
+  }
+
+  /* ============ Email body ============ */
+  .body {
+    padding: 28px 32px 32px;
+  }
+
+  .greeting {
+    font-size: 14.5px;
+    color: var(--text-primary);
+    margin-bottom: 22px;
+  }
+
+  .summary-line {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 18px;
+  }
+
+  /* ============ Counter blocks ============ */
+  .counters {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 26px;
+  }
+
+  .counter {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    border: 1px solid var(--border-light);
+    background: #FAFAFB;
+  }
+  .counter .icon {
+    font-size: 18px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .counter .ctext { flex: 1; min-width: 0; }
+  .counter .clabel {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  .counter .clabel .num {
+    color: var(--text-tertiary);
+    font-weight: 500;
+    font-size: 12px;
+    margin-left: 4px;
+  }
+  .counter .citems {
+    margin-top: 6px;
+    font-size: 12.5px;
+    color: var(--text-secondary);
+  }
+  .counter .citems li {
+    list-style: none;
+    padding: 2px 0;
+  }
+  .counter .citems li::before {
+    content: "•";
+    margin-right: 6px;
+    color: var(--text-tertiary);
+  }
+
+  .counter.decide   { background: var(--decide-bg); border-color: #FECACA; }
+  .counter.decide   .clabel { color: var(--decide-text); }
+  .counter.dontmiss { background: var(--warning-bg); border-color: #FDE68A; }
+  .counter.dontmiss .clabel { color: var(--warning-text); }
+  .counter.reminder { background: var(--reminder-bg); border-color: #BFDBFE; }
+  .counter.reminder .clabel { color: var(--reminder-text); }
+
+  /* ============ CTA ============ */
+  .cta-wrap {
+    text-align: center;
+    margin: 30px 0 24px;
+  }
+  .cta-btn {
+    display: inline-block;
+    background: var(--accent);
+    color: white;
+    text-decoration: none;
+    padding: 13px 28px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background 0.15s;
+  }
+  .cta-btn:hover { background: var(--accent-hover); }
+
+  /* ============ Calendar context ============ */
+  .calendar {
+    border-top: 1px solid var(--border-light);
+    padding-top: 20px;
+    margin-top: 8px;
+  }
+  .calendar .ctitle {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+  .calendar .crow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 6px 0;
+    font-size: 13px;
+  }
+  .calendar .ctime {
+    font-weight: 600;
+    color: var(--text-primary);
+    min-width: 48px;
+    font-variant-numeric: tabular-nums;
+  }
+  .calendar .cwhat {
+    color: var(--text-secondary);
+    flex: 1;
+  }
+  .calendar .ctag {
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 10px;
+    font-weight: 500;
+  }
+  .ctag.consulting { background: #EDE9FE; color: #5B21B6; }
+  .ctag.investment { background: #FEF3C7; color: #92400E; }
+  .ctag.startup    { background: #CFFAFE; color: #0E7490; }
+
+  /* ============ Footer ============ */
+  .efooter {
+    padding: 18px 32px 24px;
+    border-top: 1px solid var(--border-light);
+    background: #FAFAFB;
+    text-align: center;
+    font-size: 11px;
+    color: var(--text-tertiary);
+    line-height: 1.7;
+  }
+  .efooter a { color: var(--text-secondary); text-decoration: none; }
+  .efooter a:hover { text-decoration: underline; }
+
+  /* ============ Side note ============ */
+  .note {
+    max-width: 720px;
+    margin: 0 auto 40px;
+    padding: 14px 20px;
+    background: #FFFBEB;
+    border: 1px solid #FCD34D;
+    border-radius: 10px;
+    font-size: 12px;
+    color: #78350F;
+  }
+  .note strong { color: #78350F; }
+</style>
+</head>
+<body>
+
+<div class="frame">
+
+  <!-- Email client chrome -->
+  <div class="frame-top">
+    <span class="dot r"></span>
+    <span class="dot y"></span>
+    <span class="dot g"></span>
+    <span class="label">받은편지함 · Gmail 미리보기</span>
+  </div>
+
+  <!-- Metadata -->
+  <div class="meta">
+    <div class="from">
+      <div class="avatar">B</div>
+      <div class="from-info">
+        <div class="from-name">비컴 BeCalm</div>
+        <div class="from-email">daily@becalm.app</div>
+      </div>
+      <div class="timestamp">07:30 (방금)</div>
+    </div>
+    <div class="subject">[비컴] 4/7 화 — 오늘 짚어드릴 5건</div>
+    <div class="preview">어제 정리 3건 · 결정 필요 2건 · 마감 1건 — 09:30 미팅 전에 한 번만 봐주세요</div>
+  </div>
+
+  <!-- Body -->
+  <div class="body">
+    <div class="greeting">좋은 아침입니다, 임규민님 ☕</div>
+
+    <div class="summary-line">
+      어젯밤 22:00에 정리된 Daily Scrum과 오늘 챙길 것들을 한눈에 추렸어요. 본문/근거/액션은 앱에서 확인하실 수 있습니다.
+    </div>
+
+    <div class="counters">
+
+      <div class="counter dontmiss">
+        <div class="icon">☕</div>
+        <div class="ctext">
+          <div class="clabel">어제 정리 안 된 항목 <span class="num">3건</span></div>
+          <div class="citems">
+            <li>지금 한번 훑어보면 5분이면 끝나요</li>
+          </div>
+        </div>
+      </div>
+
+      <div class="counter decide">
+        <div class="icon">📌</div>
+        <div class="ctext">
+          <div class="clabel">오늘 안에 결정 필요 <span class="num">2건</span></div>
+          <ul class="citems">
+            <li>A기업 사업계획서 v3 — 팀 슬라이드 방향</li>
+            <li>스타트업 Y — 14:00 미팅 전 입장 정리</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="counter reminder">
+        <div class="icon">🔔</div>
+        <div class="ctext">
+          <div class="clabel">마감 임박 <span class="num">1건</span></div>
+          <ul class="citems">
+            <li>B기업 IR 자료 — D-5 (4/12)</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="cta-wrap">
+      <a class="cta-btn" href="javascript:void(0)">앱에서 전체 보기 →</a>
+    </div>
+
+    <div class="calendar">
+      <div class="ctitle">📅 오늘 미팅 (캘린더)</div>
+      <div class="crow">
+        <div class="ctime">09:30</div>
+        <div class="cwhat">A기업 임원 미팅 · 사업계획서 v3 발표</div>
+        <div class="ctag consulting">💼 컨설팅</div>
+      </div>
+      <div class="crow">
+        <div class="ctime">14:00</div>
+        <div class="cwhat">스타트업 Y 투자 리뷰 · 파트너 미팅</div>
+        <div class="ctag investment">💰 투자심사</div>
+      </div>
+      <div class="crow">
+        <div class="ctime">18:00</div>
+        <div class="cwhat">프로덕트 긴급 이슈 대응 · 김 CTO 온콜</div>
+        <div class="ctag startup">🚀 공동창업</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <div class="efooter">
+    이 메일은 매일 아침 07:30에 자동 발송됩니다.<br>
+    <a href="javascript:void(0)">메일 받지 않기</a> · <a href="javascript:void(0)">발송 시간 변경</a> · <a href="javascript:void(0)">앱 열기</a><br>
+    © 2026 BeCalm — 당신의 그래프가 클라우드에 살아있습니다
+  </div>
+
+</div>
+
+<div class="note">
+  <strong>📐 이 메일의 설계 원칙</strong> — 메일은 <em>trigger</em>이지 <em>destination</em>이 아닙니다.
+  카운트 + 가장 우선순위 높은 1~2개 제목만 노출하고, 본문·근거·액션은 모두 앱에서 처리하도록 유도합니다.
+  메일에서 모든 가치를 소비하면 (1) 앱 retention이 죽고, (2) ✗ 피드백·되돌리기·출처 추적 같은 신뢰 메커니즘이 작동하지 못합니다.
+</div>
+
+</body>
+</html>
